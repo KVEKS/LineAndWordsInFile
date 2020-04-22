@@ -3,7 +3,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import static java.nio.file.Files.isDirectory;
 
-public class Solution {
+public class LineAndWordsInFile {
     public static void main(String[] args) throws IOException {
         String nameIn = args[0];
         int countLines = 0, countWords = 0;
@@ -21,7 +21,8 @@ public class Solution {
                     line = reader.readLine();
                 }
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
+//                e.printStackTrace();
+                System.out.println("sas");
             } catch (IOException e) {
                 e.printStackTrace();
             }
