@@ -1,64 +1,42 @@
 import java.io.*;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import static java.nio.file.Files.isDirectory;
 
 public class LineAndWordsInFile {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         String nameIn = args[0];
-        int countLines = 0, countWords = 0;
-        ArrayList<String> lines = new ArrayList<>();
+        int countLines = 0;
+        int countWords = 0;
         if (!isDirectory(Paths.get(nameIn))) {
             try {
-                File file = new File(nameIn);
-                FileReader fr = new FileReader(file);
-                BufferedReader reader = new BufferedReader(fr);
-                String line = reader.readLine();
-
-
-                while (line != null) {
-                    lines.add(line);
-                    line = reader.readLine();
+                BufferedReader reader = new BufferedReader(new FileReader(nameIn));
+                String line = "";
+                while((line = reader.readLine()) != null) {
+                    countLines++;
+                    String[] strings = line.split(" ");
+                    countWords += strings.length;
                 }
-            } catch (FileNotFoundException e) {
-//                e.printStackTrace();
-                System.out.println("sas");
             } catch (IOException e) {
                 e.printStackTrace();
-            }
-
-            for (String s: lines) {
-                countLines++;
-                String[] strings = s.split(" ");
-                countWords += strings.length;
+                System.out.println("File doesn't exist!");
             }
         } else {
             File folder = new File(nameIn);
             File[] listOfFiles = folder.listFiles();
             for (int i = 0; i < listOfFiles.length; i++) {
-
                 try {
-                    File file = new File(listOfFiles[i].getAbsolutePath());
-                    FileReader fr = new FileReader(file);
-                    BufferedReader reader = new BufferedReader(fr);
-                    String line = reader.readLine();
-
-                    while (line != null) {
-                        lines.add(line);
-                        line = reader.readLine();
-                    }
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                    for (String s: lines) {
-                        countLines ++;
-                        String[] strings = s.split(" ");
+                    BufferedReader reader = new BufferedReader(new FileReader(listOfFiles[i].getAbsolutePath()));
+                    String line = "";
+                    while((line = reader.readLine()) != null) {
+                        countLines++;
+                        String[] strings = line.split(" ");
                         countWords += strings.length;
                     }
-                System.out.println(listOfFiles[i].getName()); //проверка наличия файлов
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    System.out.println("Folder doesn't exist!");
+                }
+                System.out.println(listOfFiles[i].getName());
             }
         }
         System.out.println("Строк " + countLines + "\nСлов " + countWords);
